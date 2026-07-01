@@ -84,6 +84,15 @@ http://localhost:4173/history-map-sandbox/#/
 ```text
 VITE_CESIUM_ION_TOKEN=
 VITE_TDT_TOKEN=
+VITE_BASEMAP_MODE=demo
 ```
 
-第一版不强制使用真实地形。未配置 Cesium Ion token 时，页面使用基础地图模式。
+### 底图模式
+
+- `VITE_BASEMAP_MODE=demo`（默认）：公开演示底图，基于 OpenStreetMap，用于开发和普通预览。
+- `VITE_BASEMAP_MODE=grid`：纯网格兜底模式，不依赖外部图源。
+- `VITE_BASEMAP_MODE=tdt`：天地图矢量底图模式，加载天地图矢量底图层和中文注记层，需要配置 `VITE_TDT_TOKEN`；未配置 token 时自动回退到公开演示底图，加载失败时自动回退到基础网格兜底模式，不会导致页面崩溃。
+
+注意：前端环境变量会暴露在浏览器中，因此 `VITE_TDT_TOKEN` 只能作为公开 key 使用，建议在天地图后台限制可用域名。
+
+第一版不强制使用真实地形。未配置 Cesium Ion token 时，页面使用公开演示底图或网格兜底。

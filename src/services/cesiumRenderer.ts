@@ -1,5 +1,7 @@
 import * as Cesium from 'cesium';
 
+import { createBasemapLayers, normalizeBasemapMode } from '@/services/basemap';
+import type { BasemapMode, BasemapStatus } from '@/types/basemap';
 import type { ScenarioFocus } from '@/types/event';
 import type {
   LineStringGeometry,
@@ -19,9 +21,17 @@ export interface ScenarioDataSources {
   zones: Cesium.CustomDataSource;
 }
 
+export interface SandboxViewerOptions {
+  ionToken?: string;
+  basemapMode?: BasemapMode;
+  tdtToken?: string;
+}
+
 export interface SandboxViewerResult {
   viewer: Cesium.Viewer;
-  imageryLayer: Cesium.ImageryLayer | null;
+  primaryLayers: Cesium.ImageryLayer[];
+  fallbackLayer: Cesium.ImageryLayer | null;
+  basemapStatus: BasemapStatus;
 }
 
 export interface ScenarioLayerPayload {
@@ -38,8 +48,6 @@ const ZONE_COLOR = Cesium.Color.fromCssColorString('#ff6b4a');
 const HIGHLIGHT_COLOR = Cesium.Color.fromCssColorString('#ffffff');
 const TEXT_COLOR = Cesium.Color.fromCssColorString('#eef5f1');
 const OUTLINE_COLOR = Cesium.Color.fromCssColorString('#07100f');
-const OSM_ATTRIBUTION =
-  '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors';
 
 function positionToDegrees(position: Position): [number, number] {
   return [position[0], position[1]];
@@ -117,20 +125,12 @@ function describeFeature(title: string, description: string, type: string): stri
   `;
 }
 
-function createFallbackGridProvider(): Cesium.GridImageryProvider {
-  return new Cesium.GridImageryProvider({
-    cells: 8,
-    color: Cesium.Color.fromCssColorString('#5f7d74').withAlpha(0.7),
-    glowColor: Cesium.Color.fromCssColorString('#56c2a3').withAlpha(0.18),
-    backgroundColor: Cesium.Color.fromCssColorString('#172120').withAlpha(0.95),
-    tileWidth: 256,
-    tileHeight: 256,
-  });
-}
-
-export function createSandboxViewer(container: HTMLElement, ionToken?: string): SandboxViewerResult {
-  if (ionToken) {
-    Cesium.Ion.defaultAccessToken = ionToken;
+export function createSandboxViewer(
+  container: HTMLElement,
+  options: SandboxViewerOptions = {},
+): SandboxViewerResult {
+  if (options.ionToken) {
+    Cesium.Ion.defaultAccessToken = options.ionToken;
   }
 
   const viewer = new Cesium.Viewer(container, {
@@ -153,20 +153,17 @@ export function createSandboxViewer(container: HTMLElement, ionToken?: string): 
     viewer.scene.skyAtmosphere.show = false;
   }
 
-  viewer.imageryLayers.addImageryProvider(createFallbackGridProvider());
-
-  const osmProvider = new Cesium.OpenStreetMapImageryProvider({
-    url: 'https://tile.openstreetmap.org/',
-    credit: OSM_ATTRIBUTION,
-    minimumLevel: 0,
-    maximumLevel: 18,
+  const mode = normalizeBasemapMode(options.basemapMode);
+  const basemapResult = createBasemapLayers(viewer, mode, {
+    tdtToken: options.tdtToken,
   });
-  const imageryLayer = viewer.imageryLayers.addImageryProvider(osmProvider);
   viewer.scene.requestRender();
 
   return {
     viewer,
-    imageryLayer,
+    primaryLayers: basemapResult.primaryLayers,
+    fallbackLayer: basemapResult.fallbackLayer,
+    basemapStatus: basemapResult.status,
   };
 }
 

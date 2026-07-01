@@ -13,6 +13,7 @@ import {
   renderScenarioLayers,
   type ScenarioDataSources,
 } from '@/services/cesiumRenderer';
+import type { BasemapMode, BasemapStatus } from '@/types/basemap';
 import type { ScenarioEvent } from '@/types/event';
 import type {
   PlacesFeatureCollection,
@@ -21,6 +22,10 @@ import type {
 } from '@/types/geojson';
 import type { LayerVisibility } from '@/types/layer';
 import type { ScenarioSubject } from '@/types/scenario';
+
+const CESIUM_ION_TOKEN = import.meta.env.VITE_CESIUM_ION_TOKEN as string | undefined;
+const TDT_TOKEN = import.meta.env.VITE_TDT_TOKEN as string | undefined;
+const BASEMAP_MODE = import.meta.env.VITE_BASEMAP_MODE as BasemapMode | undefined;
 
 const props = defineProps<{
   places?: PlacesFeatureCollection | null;
@@ -34,18 +39,17 @@ const props = defineProps<{
 }>();
 
 const containerRef = ref<HTMLElement | null>(null);
-const hasIonToken = computed(() => Boolean(import.meta.env.VITE_CESIUM_ION_TOKEN));
-const baseMapStatus = ref<'loading' | 'ready' | 'failed'>('loading');
+const basemapStatus = ref<BasemapStatus | null>(null);
 const mapModeLabel = computed(() => {
-  if (baseMapStatus.value === 'failed') {
-    return '底图加载失败，当前为基础地球模式';
+  if (!basemapStatus.value) {
+    return '正在初始化地图...';
   }
 
-  if (baseMapStatus.value === 'loading') {
-    return hasIonToken.value ? '正在加载在线底图' : '正在加载公开演示底图';
+  if (basemapStatus.value.usingFallback && basemapStatus.value.message) {
+    return basemapStatus.value.message;
   }
 
-  return hasIonToken.value ? '在线底图模式' : '公开演示底图模式';
+  return basemapStatus.value.label;
 });
 
 let viewer: Cesium.Viewer | null = null;
@@ -88,15 +92,46 @@ function hasRenderableData(): boolean {
   );
 }
 
-function installImageryStatusWatch(imageryLayer: Cesium.ImageryLayer | null): void {
-  if (!imageryLayer) {
-    baseMapStatus.value = 'failed';
+function installImageryStatusWatch(
+  primaryLayers: Cesium.ImageryLayer[],
+  fallbackLayer: Cesium.ImageryLayer | null,
+): void {
+  if (primaryLayers.length === 0) {
+    if (fallbackLayer) {
+      basemapStatus.value = {
+        mode: 'grid',
+        label: '基础网格兜底模式',
+        usingFallback: true,
+        message: '底图加载失败，已切换到基础网格兜底模式',
+      };
+    }
+
     return;
   }
 
-  baseMapStatus.value = 'ready';
-  imageryLayer.imageryProvider.errorEvent.addEventListener(() => {
-    baseMapStatus.value = 'failed';
+  const currentMode = basemapStatus.value?.mode ?? 'grid';
+  const fallbackMessage =
+    currentMode === 'tdt'
+      ? '天地图底图加载失败，已切换到基础网格兜底模式'
+      : '底图加载失败，已切换到基础网格兜底模式';
+
+  primaryLayers.forEach((layer) => {
+    layer.imageryProvider.errorEvent.addEventListener(() => {
+      primaryLayers.forEach((primaryLayer) => {
+        primaryLayer.show = false;
+      });
+
+      if (fallbackLayer) {
+        fallbackLayer.show = true;
+      }
+
+      basemapStatus.value = {
+        mode: 'grid',
+        label: '基础网格兜底模式',
+        usingFallback: true,
+        message: fallbackMessage,
+      };
+    });
   });
 }
 
@@ -117,9 +152,14 @@ onMounted(() => {
     return;
   }
 
-  const sandbox = createSandboxViewer(containerRef.value, import.meta.env.VITE_CESIUM_ION_TOKEN);
+  const sandbox = createSandboxViewer(containerRef.value, {
+    ionToken: CESIUM_ION_TOKEN,
+    basemapMode: BASEMAP_MODE,
+    tdtToken: TDT_TOKEN,
+  });
   viewer = sandbox.viewer;
-  installImageryStatusWatch(sandbox.imageryLayer);
+  basemapStatus.value = sandbox.basemapStatus;
+  installImageryStatusWatch(sandbox.primaryLayers, sandbox.fallbackLayer);
   sources = createScenarioSources(viewer);
   flyToScenarioFocus(
     viewer,

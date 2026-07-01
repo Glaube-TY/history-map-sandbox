@@ -40,6 +40,21 @@ npm run dev:lan
 
 `dev` 绑定 `127.0.0.1:5173`，`dev:lan` 绑定 `0.0.0.0:5173`，便于局域网设备访问。
 
+## 底图模式
+
+复制 `.env.example` 为 `.env.local` 后，可通过 `VITE_BASEMAP_MODE` 切换底图：
+
+- `VITE_BASEMAP_MODE=demo`（默认）：公开演示底图，基于 OpenStreetMap，用于开发和普通预览。
+- `VITE_BASEMAP_MODE=grid`：纯网格兜底模式，不依赖外部图源。
+- `VITE_BASEMAP_MODE=tdt`：天地图矢量底图模式，加载天地图矢量底图层和中文注记层，需要配置 `VITE_TDT_TOKEN`；未配置 token 时自动回退到公开演示底图，加载失败时自动回退到基础网格兜底模式，不会导致页面崩溃。
+
+### 环境变量安全
+
+- `.env.example` 可以提交到仓库，作为配置模板。
+- `.env`、`.env.local`、`.env.production` 等包含真实 token 的文件**不要提交**。
+- `VITE_TDT_TOKEN`、`VITE_CESIUM_ION_TOKEN` 等以 `VITE_` 开头的变量会被打包到前端，**不能视为真正密钥**，只能作为公开 key 使用。
+- 建议在天地图、Cesium Ion 等服务后台限制可用域名，降低 token 被滥用的风险。
+
 ## 构建预览
 
 ```bash
