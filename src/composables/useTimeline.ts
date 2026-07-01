@@ -1,6 +1,6 @@
 import { computed, onBeforeUnmount, ref } from 'vue';
 
-import { compareScenarioTime, formatScenarioDate } from '@/services/timeUtils';
+import { compareScenarioEvent, formatEventTime } from '@/services/timeUtils';
 import type { ScenarioEvent } from '@/types/event';
 
 export function useTimeline() {
@@ -11,7 +11,7 @@ export function useTimeline() {
 
   const currentEvent = computed<ScenarioEvent | null>(() => events.value[currentIndex.value] ?? null);
   const currentTime = computed(() =>
-    currentEvent.value ? formatScenarioDate(currentEvent.value.time) : '暂无时间',
+    currentEvent.value ? formatEventTime(currentEvent.value) : '暂无时间',
   );
   const progressMax = computed(() => Math.max(events.value.length - 1, 0));
 
@@ -24,9 +24,7 @@ export function useTimeline() {
 
   function setEvents(nextEvents: ScenarioEvent[]): void {
     stopTimer();
-    events.value = [...nextEvents].sort((left, right) =>
-      compareScenarioTime(left.time, right.time),
-    );
+    events.value = [...nextEvents].sort((left, right) => compareScenarioEvent(left, right));
     currentIndex.value = 0;
     isPlaying.value = false;
   }

@@ -1,6 +1,6 @@
 # History Map Sandbox
 
-History Map Sandbox 是一个历史地图沙盘前端项目，用地图、地形视角和时间轴展示历史事件的空间演变。当前阶段以中国历史战争/战役案例作为演示数据，但架构保留为通用历史空间叙事工具，后续可扩展到历史事件、疆域变迁、迁徙路线、贸易路线、人物行迹和城市历史等主题。
+History Map Sandbox 是一个历史地图沙盘前端项目，用地图、地形视角和时间轴展示历史事件的空间演变。当前阶段以中国历史专题作为演示数据，已包含战争战役与历史线路两个示例。架构保留为通用历史空间叙事工具，后续可扩展到历史事件、疆域变迁、迁徙路线、贸易路线、人物行迹和城市历史等主题。
 
 ## 技术栈
 
@@ -63,17 +63,26 @@ http://localhost:4173/history-map-sandbox/#/
 Settings -> Pages -> Source -> GitHub Actions
 ```
 
+## 专题分类筛选
+
+首页支持按 `category` 对专题进行轻量分类筛选。专题卡片上方会显示自动生成的分类标签（如“全部”“战争战役”“历史线路”等），点击即可切换，并实时显示当前筛选下的专题数量。
+
 ## 数据目录说明
 
 第一版不使用后端，所有专题数据放在 `public/data`：
 
 - `public/data/scenarios.json`：专题列表。
-- `public/data/scenarios/{id}/metadata.json`：专题元数据。
-- `public/data/scenarios/{id}/events.json`：时间轴事件。
+- `public/data/scenarios/{id}/metadata.json`：专题元数据，支持 `displayPeriod` 和通用 `subjects` 字段，以适配战争参与方、历史线路、城市节点、机构、人物等多种历史对象。`subjects` 是推荐字段，`factions` 是第一版兼容字段。点、线、面颜色优先由 `properties.subject` 匹配 `metadata.subjects`，缺失时回退到 `properties.faction` 匹配 `metadata.factions`。
+- `public/data/scenarios/{id}/events.json`：时间轴事件，支持 `displayTime` 和 `sortOrder` 字段。
 - `public/data/scenarios/{id}/places.geojson`：地点点位。
 - `public/data/scenarios/{id}/routes.geojson`：路线。
 - `public/data/scenarios/{id}/zones.geojson`：区域。
 - `public/data/scenarios/{id}/sources.json`：来源与校订说明。
+
+当前示例项目包含两个专题：
+
+- **平型关大捷**：战争战役类示例。
+- **大运河历史线路**：非战争历史线路示例，用于验证模型对交通、城市节点、区域范围等广义历史主题的表达能力。
 
 ## 许可证占位
 

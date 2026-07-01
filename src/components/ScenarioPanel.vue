@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
+import { resolveScenarioSubjects } from '@/services/scenarioSubjects';
 import { formatScenarioRange } from '@/services/timeUtils';
 import type { ScenarioEvent } from '@/types/event';
 import type { ScenarioMetadata, ScenarioSources } from '@/types/scenario';
@@ -16,7 +17,19 @@ const dateRange = computed(() => {
     return '暂无时间范围';
   }
 
+  if (props.metadata.displayPeriod) {
+    return props.metadata.displayPeriod;
+  }
+
   return formatScenarioRange(props.metadata.startDate, props.metadata.endDate);
+});
+
+const subjects = computed(() => {
+  if (!props.metadata) {
+    return [];
+  }
+
+  return resolveScenarioSubjects(props.metadata);
 });
 </script>
 
@@ -43,10 +56,10 @@ const dateRange = computed(() => {
       </div>
 
       <div class="faction-list">
-        <h2>参与方 / 对象</h2>
-        <div v-for="faction in metadata.factions" :key="faction.id" class="faction-row">
-          <span class="faction-color" :style="{ backgroundColor: faction.color }"></span>
-          <span>{{ faction.name }}</span>
+        <h2>主题对象 / 参与方</h2>
+        <div v-for="subject in subjects" :key="subject.id" class="faction-row">
+          <span class="faction-color" :style="{ backgroundColor: subject.color }"></span>
+          <span>{{ subject.name }}</span>
         </div>
       </div>
 

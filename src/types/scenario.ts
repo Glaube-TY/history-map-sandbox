@@ -21,17 +21,26 @@ export interface ScenarioFaction {
   color: string;
 }
 
+export interface ScenarioSubject {
+  id: string;
+  name: string;
+  color: string;
+  description?: string;
+}
+
 export interface ScenarioMetadata {
   id: string;
   title: string;
   category: string;
+  displayPeriod?: string;
   startDate: string;
   endDate: string;
   center: [number, number];
   defaultCameraHeight: number;
   summary: string;
   tags: string[];
-  factions: ScenarioFaction[];
+  subjects?: ScenarioSubject[];
+  factions?: ScenarioFaction[];
 }
 
 export interface ScenarioSources {

@@ -38,14 +38,17 @@ export interface BaseFeatureProperties {
 }
 
 export interface PlaceProperties extends BaseFeatureProperties {
+  subject?: string;
   faction?: string;
 }
 
 export interface RouteProperties extends BaseFeatureProperties {
+  subject?: string;
   faction: string;
 }
 
 export interface ZoneProperties extends BaseFeatureProperties {
+  subject?: string;
   faction: string;
 }
 

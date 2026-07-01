@@ -38,6 +38,8 @@
         "name": "伏击区域附近",
         "type": "空间标注",
         "description": "示例战术空间标注，非正式史料坐标。",
+        "subject": "eighth-route-army",
+        "faction": "eighth-route-army",
         "startTime": "1937-09-24",
         "endTime": "1937-09-26"
       },

@@ -15,4 +15,6 @@ export interface ScenarioEvent {
   description: string;
   focus: ScenarioFocus;
   visibleLayers: LayerKey[];
+  displayTime?: string;
+  sortOrder?: number;
 }

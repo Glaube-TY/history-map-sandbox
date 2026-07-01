@@ -29,7 +29,29 @@ function scenarioDataUrl(id: string, fileName: string): string {
   return `${DATA_BASE_URL}/scenarios/${encodeURIComponent(id)}/${fileName}`;
 }
 
-function assertFiniteGeoJsonBounds(collection: unknown, label: string): void {
+interface MinimalFeatureCollection {
+  type: string;
+  features: unknown[];
+}
+
+function isFeatureCollection(value: unknown): value is MinimalFeatureCollection {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    (value as Record<string, unknown>).type === 'FeatureCollection' &&
+    Array.isArray((value as Record<string, unknown>).features)
+  );
+}
+
+function validateGeoJsonLayer(collection: unknown, label: string): void {
+  if (!isFeatureCollection(collection)) {
+    throw new Error(`${label} 必须是 GeoJSON FeatureCollection`);
+  }
+
+  if (collection.features.length === 0) {
+    return;
+  }
+
   const bounds = bbox(collection as Parameters<typeof bbox>[0]);
 
   if (!bounds.every(Number.isFinite)) {
@@ -60,9 +82,9 @@ export async function loadScenarioBundle(id: string): Promise<ScenarioBundle> {
     loadJson<ScenarioSources>(scenarioDataUrl(id, 'sources.json')),
   ]);
 
-  assertFiniteGeoJsonBounds(places, 'places.geojson');
-  assertFiniteGeoJsonBounds(routes, 'routes.geojson');
-  assertFiniteGeoJsonBounds(zones, 'zones.geojson');
+  validateGeoJsonLayer(places, 'places.geojson');
+  validateGeoJsonLayer(routes, 'routes.geojson');
+  validateGeoJsonLayer(zones, 'zones.geojson');
 
   return {
     metadata,

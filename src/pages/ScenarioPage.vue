@@ -12,6 +12,7 @@ import TimelinePlayer from '@/components/TimelinePlayer.vue';
 import { useLayerControl } from '@/composables/useLayerControl';
 import { useScenarioData } from '@/composables/useScenarioData';
 import { useTimeline } from '@/composables/useTimeline';
+import { resolveScenarioSubjects } from '@/services/scenarioSubjects';
 
 const route = useRoute();
 const { scenario, isLoading, errorMessage, fetchScenario } = useScenarioData();
@@ -30,12 +31,16 @@ const {
 } = useTimeline();
 
 const scenarioId = computed(() => String(route.params.id ?? ''));
+const subjects = computed(() =>
+  scenario.value ? resolveScenarioSubjects(scenario.value.metadata) : [],
+);
 
 async function loadCurrentScenario(): Promise<void> {
   if (!scenarioId.value) {
     return;
   }
 
+  setEvents([]);
   await fetchScenario(scenarioId.value);
 
   if (scenario.value) {
@@ -75,7 +80,7 @@ watch(scenarioId, () => {
           :zones="scenario.zones"
           :layers="layers"
           :current-event="currentEvent"
-          :factions="scenario.metadata.factions"
+          :subjects="subjects"
           :center="scenario.metadata.center"
           :default-camera-height="scenario.metadata.defaultCameraHeight"
         />
@@ -89,7 +94,7 @@ watch(scenarioId, () => {
 
       <aside class="workspace-right">
         <LayerPanel :layers="layers" :options="layerOptions" @set-layer="setLayer" />
-        <LegendPanel :event="currentEvent" />
+        <LegendPanel :event="currentEvent" :subjects="subjects" />
       </aside>
     </main>
 

@@ -7,6 +7,7 @@
         "id": "zone-canal-influence",
         "name": "沿线影响范围示意",
         "type": "影响区域",
+        "subject": "transport-route",
         "faction": "transport-route",
         "description": "示意性多边形，用于表达大运河沿线历史交通影响范围。该区域不是正式历史边界，也不代表精确行政或水系范围。",
         "startTime": "0605-01-01",

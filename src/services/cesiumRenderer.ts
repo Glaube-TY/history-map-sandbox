@@ -11,7 +11,7 @@ import type {
   ZonesFeatureCollection,
 } from '@/types/geojson';
 import type { LayerVisibility } from '@/types/layer';
-import type { ScenarioFaction } from '@/types/scenario';
+import type { ScenarioSubject } from '@/types/scenario';
 
 export interface ScenarioDataSources {
   places: Cesium.CustomDataSource;
@@ -28,7 +28,7 @@ export interface ScenarioLayerPayload {
   places?: PlacesFeatureCollection | null;
   routes?: RoutesFeatureCollection | null;
   zones?: ZonesFeatureCollection | null;
-  factions?: ScenarioFaction[] | null;
+  subjects?: ScenarioSubject[] | null;
   currentEventTime?: string | null;
 }
 
@@ -52,14 +52,14 @@ function flattenDegrees(positions: Position[]): number[] {
   });
 }
 
-type FactionColorMap = Map<string, Cesium.Color>;
+type SubjectColorMap = Map<string, Cesium.Color>;
 
-function buildFactionColorMap(factions?: ScenarioFaction[] | null): FactionColorMap {
-  const colorMap: FactionColorMap = new Map();
+function buildSubjectColorMap(subjects?: ScenarioSubject[] | null): SubjectColorMap {
+  const colorMap: SubjectColorMap = new Map();
 
-  factions?.forEach((faction) => {
+  subjects?.forEach((subject) => {
     try {
-      colorMap.set(faction.id, Cesium.Color.fromCssColorString(faction.color));
+      colorMap.set(subject.id, Cesium.Color.fromCssColorString(subject.color));
     } catch {
       // Invalid data colors should not break scenario rendering.
     }
@@ -68,16 +68,16 @@ function buildFactionColorMap(factions?: ScenarioFaction[] | null): FactionColor
   return colorMap;
 }
 
-function colorForFaction(
-  colorMap: FactionColorMap,
-  faction: string | undefined,
+function colorForSubject(
+  colorMap: SubjectColorMap,
+  subject: string | undefined,
   fallback: Cesium.Color,
 ): Cesium.Color {
-  if (!faction) {
+  if (!subject) {
     return fallback;
   }
 
-  return colorMap.get(faction) ?? fallback;
+  return colorMap.get(subject) ?? fallback;
 }
 
 function eventTouchesFeature(
@@ -187,7 +187,7 @@ export function createScenarioSources(viewer: Cesium.Viewer): ScenarioDataSource
 function renderPlaces(
   source: Cesium.CustomDataSource,
   collection?: PlacesFeatureCollection | null,
-  colorMap: FactionColorMap = new Map(),
+  colorMap: SubjectColorMap = new Map(),
   eventTime?: string | null,
 ): void {
   source.entities.removeAll();
@@ -195,7 +195,8 @@ function renderPlaces(
   collection?.features.forEach((feature) => {
     const geometry: PointGeometry = feature.geometry;
     const [longitude, latitude] = positionToDegrees(geometry.coordinates);
-    const color = colorForFaction(colorMap, feature.properties.faction, PLACE_COLOR);
+    const subjectId = feature.properties.subject ?? feature.properties.faction;
+    const color = colorForSubject(colorMap, subjectId, PLACE_COLOR);
     const highlighted = eventTouchesFeature(feature.properties, eventTime);
 
     source.entities.add({
@@ -234,14 +235,15 @@ function renderPlaces(
 function renderRoutes(
   source: Cesium.CustomDataSource,
   collection?: RoutesFeatureCollection | null,
-  colorMap: FactionColorMap = new Map(),
+  colorMap: SubjectColorMap = new Map(),
   eventTime?: string | null,
 ): void {
   source.entities.removeAll();
 
   collection?.features.forEach((feature) => {
     const geometry: LineStringGeometry = feature.geometry;
-    const color = colorForFaction(colorMap, feature.properties.faction, ROUTE_COLOR);
+    const subjectId = feature.properties.subject ?? feature.properties.faction;
+    const color = colorForSubject(colorMap, subjectId, ROUTE_COLOR);
     const highlighted = eventTouchesFeature(feature.properties, eventTime);
 
     source.entities.add({
@@ -271,7 +273,7 @@ function renderRoutes(
 function renderZones(
   source: Cesium.CustomDataSource,
   collection?: ZonesFeatureCollection | null,
-  colorMap: FactionColorMap = new Map(),
+  colorMap: SubjectColorMap = new Map(),
   eventTime?: string | null,
 ): void {
   source.entities.removeAll();
@@ -279,7 +281,8 @@ function renderZones(
   collection?.features.forEach((feature) => {
     const geometry: PolygonGeometry = feature.geometry;
     const outerRing = geometry.coordinates[0] ?? [];
-    const color = colorForFaction(colorMap, feature.properties.faction, ZONE_COLOR);
+    const subjectId = feature.properties.subject ?? feature.properties.faction;
+    const color = colorForSubject(colorMap, subjectId, ZONE_COLOR);
     const highlighted = eventTouchesFeature(feature.properties, eventTime);
     const degrees = flattenDegrees(outerRing);
 
@@ -320,7 +323,7 @@ export function renderScenarioLayers(
   sources: ScenarioDataSources,
   payload: ScenarioLayerPayload,
 ): void {
-  const colorMap = buildFactionColorMap(payload.factions);
+  const colorMap = buildSubjectColorMap(payload.subjects);
 
   renderPlaces(sources.places, payload.places, colorMap, payload.currentEventTime);
   renderRoutes(sources.routes, payload.routes, colorMap, payload.currentEventTime);

@@ -20,7 +20,7 @@ import type {
   ZonesFeatureCollection,
 } from '@/types/geojson';
 import type { LayerVisibility } from '@/types/layer';
-import type { ScenarioFaction } from '@/types/scenario';
+import type { ScenarioSubject } from '@/types/scenario';
 
 const props = defineProps<{
   places?: PlacesFeatureCollection | null;
@@ -28,7 +28,7 @@ const props = defineProps<{
   zones?: ZonesFeatureCollection | null;
   layers: LayerVisibility;
   currentEvent: ScenarioEvent | null;
-  factions: ScenarioFaction[];
+  subjects: ScenarioSubject[];
   center: [number, number];
   defaultCameraHeight: number;
 }>();
@@ -57,7 +57,7 @@ function buildLayerPayload() {
     places: props.places,
     routes: props.routes,
     zones: props.zones,
-    factions: props.factions,
+    subjects: props.subjects,
     currentEventTime: props.currentEvent?.time ?? null,
   };
 }
@@ -133,7 +133,7 @@ onMounted(() => {
 });
 
 watch(
-  () => [props.places, props.routes, props.zones, props.factions],
+  () => [props.places, props.routes, props.zones, props.subjects],
   () => refreshLayers(),
   { deep: true },
 );

@@ -2,12 +2,25 @@
   "id": "pingxingguan",
   "title": "平型关大捷",
   "category": "战争战役",
+  "displayPeriod": "1937年9月",
   "startDate": "1937-09-20",
   "endDate": "1937-09-26",
   "center": [113.9304, 39.9569],
   "defaultCameraHeight": 36000,
   "summary": "平型关大捷示例专题，用于验证地图、图层、时间轴和资料说明的基础流程。示例坐标仅用于沙盘演示，正式发布前需依据史料和地图资料校订。",
   "tags": ["抗日战争", "山西", "空间叙事", "演示数据"],
+  "subjects": [
+    {
+      "id": "eighth-route-army",
+      "name": "八路军相关部队",
+      "color": "#56c2a3"
+    },
+    {
+      "id": "japanese-army",
+      "name": "日军相关部队",
+      "color": "#d96c59"
+    }
+  ],
   "factions": [
     {
       "id": "eighth-route-army",

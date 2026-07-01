@@ -7,6 +7,7 @@
         "id": "zone-ambush",
         "name": "重点空间范围",
         "type": "影响区域",
+        "subject": "eighth-route-army",
         "faction": "eighth-route-army",
         "description": "示例多边形区域，用于表达专题中的关键空间范围。",
         "startTime": "1937-09-24",

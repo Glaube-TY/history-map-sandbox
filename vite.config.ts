@@ -4,8 +4,10 @@ import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
+const base = '/history-map-sandbox/';
+
 export default defineConfig({
-  base: '/history-map-sandbox/',
+  base,
   plugins: [
     vue(),
     viteStaticCopy({
@@ -34,7 +36,7 @@ export default defineConfig({
     }),
   ],
   define: {
-    CESIUM_BASE_URL: JSON.stringify('/history-map-sandbox/cesiumStatic/'),
+    CESIUM_BASE_URL: JSON.stringify(`${base}cesiumStatic/`),
   },
   resolve: {
     alias: {
