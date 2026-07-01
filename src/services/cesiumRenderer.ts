@@ -88,20 +88,17 @@ export function createSandboxViewer(container: HTMLElement, ionToken?: string): 
     viewer.scene.skyAtmosphere.show = false;
   }
 
-  void Promise.resolve(
-    Cesium.TileMapServiceImageryProvider.fromUrl(
-      Cesium.buildModuleUrl('Assets/Textures/NaturalEarthII'),
-    ),
-  )
-    .then((provider) => {
-      if (!viewer.isDestroyed()) {
-        viewer.imageryLayers.addImageryProvider(provider);
-        viewer.scene.requestRender();
-      }
-    })
-    .catch(() => {
-      viewer.scene.requestRender();
-    });
+  viewer.imageryLayers.addImageryProvider(
+    new Cesium.GridImageryProvider({
+      cells: 8,
+      color: Cesium.Color.fromCssColorString('#47665f').withAlpha(0.55),
+      glowColor: Cesium.Color.fromCssColorString('#56c2a3').withAlpha(0.12),
+      backgroundColor: Cesium.Color.fromCssColorString('#172120').withAlpha(0.92),
+      tileWidth: 256,
+      tileHeight: 256,
+    }),
+  );
+  viewer.scene.requestRender();
 
   return viewer;
 }
