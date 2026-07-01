@@ -75,6 +75,7 @@ watch(scenarioId, () => {
           :zones="scenario.zones"
           :layers="layers"
           :current-event="currentEvent"
+          :factions="scenario.metadata.factions"
           :center="scenario.metadata.center"
           :default-camera-height="scenario.metadata.defaultCameraHeight"
         />

@@ -6,9 +6,10 @@ module.exports = {
     es2022: true,
     node: true,
   },
+  ignorePatterns: ['dist', 'node_modules', 'coverage'],
   extends: [
     'eslint:recommended',
-    'plugin:vue/recommended',
+    'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],

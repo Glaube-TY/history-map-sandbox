@@ -1,0 +1,66 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "route-north-canal",
+        "name": "北方运河线路示意",
+        "type": "canal-route",
+        "faction": "transport-route",
+        "description": "以北京/通州、天津、临清、济宁等节点串联的演示线路，不代表精确历史河道。",
+        "startTime": "1293-01-01",
+        "endTime": "1900-12-31"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [116.657, 39.909],
+          [117.2, 39.084],
+          [115.704, 36.838],
+          [116.587, 35.415]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "route-huaiyang-canal",
+        "name": "淮扬段线路示意",
+        "type": "canal-route",
+        "faction": "transport-route",
+        "description": "以济宁、淮安、扬州等节点表达中段交通联系，路径为演示近似。",
+        "startTime": "0605-01-01",
+        "endTime": "1900-12-31"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [116.587, 35.415],
+          [119.015, 33.61],
+          [119.413, 32.394]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "route-jiangnan-canal",
+        "name": "江南段线路示意",
+        "type": "canal-route",
+        "faction": "transport-route",
+        "description": "以扬州、苏州、杭州等节点表达江南段交通联系，路径为演示近似。",
+        "startTime": "0605-01-01",
+        "endTime": "1900-12-31"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [119.413, 32.394],
+          [120.585, 31.299],
+          [120.155, 30.274]
+        ]
+      }
+    }
+  ]
+}

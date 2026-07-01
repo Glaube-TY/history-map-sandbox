@@ -1,0 +1,23 @@
+{
+  "id": "grand-canal",
+  "title": "大运河历史线路",
+  "category": "交通贸易",
+  "startDate": "0605-01-01",
+  "endDate": "1900-12-31",
+  "center": [117.8, 35.2],
+  "defaultCameraHeight": 1800000,
+  "summary": "大运河历史线路示例专题，用于验证历史地图沙盘可展示非战争历史事件。当前线路、节点和范围使用现代城市近似坐标，仅作为交通线路与时间轴可视化演示。",
+  "tags": ["大运河", "历史线路", "交通贸易", "节点城市", "演示数据"],
+  "factions": [
+    {
+      "id": "canal-cities",
+      "name": "大运河沿线城市",
+      "color": "#19d3a2"
+    },
+    {
+      "id": "transport-route",
+      "name": "漕运与交通线路",
+      "color": "#ffd166"
+    }
+  ]
+}

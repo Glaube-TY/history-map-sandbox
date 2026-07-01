@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "zone-canal-influence",
+        "name": "沿线影响范围示意",
+        "type": "影响区域",
+        "faction": "transport-route",
+        "description": "示意性多边形，用于表达大运河沿线历史交通影响范围。该区域不是正式历史边界，也不代表精确行政或水系范围。",
+        "startTime": "0605-01-01",
+        "endTime": "1900-12-31"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [116.1, 40.3],
+            [117.9, 39.4],
+            [116.5, 36.2],
+            [119.9, 33.0],
+            [120.9, 30.2],
+            [119.4, 29.7],
+            [118.7, 32.2],
+            [115.5, 35.6],
+            [115.0, 37.3],
+            [115.8, 39.5],
+            [116.1, 40.3]
+          ]
+        ]
+      }
+    }
+  ]
+}

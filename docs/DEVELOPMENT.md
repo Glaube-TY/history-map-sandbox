@@ -2,7 +2,9 @@
 
 ## Node 环境
 
-建议使用 Node 22+。项目使用 npm 作为包管理器，并提交 `package-lock.json` 以保证依赖安装可复现。
+推荐使用 Node.js 22.18+ 和 npm 10+。低版本 Node 可能在安装依赖时出现 `EBADENGINE` warning，建议升级 Node 后再执行安装和构建。
+
+项目使用 npm 作为包管理器，并提交 `package-lock.json` 以保证依赖安装可复现。
 
 ## 安装依赖
 

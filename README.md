@@ -14,6 +14,10 @@ History Map Sandbox 是一个历史地图沙盘前端项目，用地图、地形
 - @turf/turf
 - GitHub Actions + GitHub Pages
 
+## 环境要求
+
+推荐使用 Node.js 22.18+ 和 npm 10+。低版本 Node 可能在安装依赖时出现 `EBADENGINE` warning，建议升级 Node 后再执行安装和构建。
+
 ## 快速开始
 
 ```bash

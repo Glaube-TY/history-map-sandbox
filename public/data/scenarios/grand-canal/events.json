@@ -1,0 +1,50 @@
+[
+  {
+    "id": "evt-overview",
+    "time": "0605-01-01",
+    "title": "历史线路概览",
+    "description": "以演示线路串联华北、淮扬与江南节点，展示大运河作为历史交通线路的空间结构。坐标和路径为第一版近似数据。",
+    "focus": {
+      "center": [117.8, 35.2],
+      "height": 1900000,
+      "pitch": -62
+    },
+    "visibleLayers": ["places", "routes", "zones"]
+  },
+  {
+    "id": "evt-north-node",
+    "time": "1293-01-01",
+    "title": "北方节点与通州方向",
+    "description": "聚焦北京通州、天津、临清一线，说明北方节点与运河交通网络之间的关系。",
+    "focus": {
+      "center": [116.75, 38.4],
+      "height": 620000,
+      "pitch": -58
+    },
+    "visibleLayers": ["places", "routes"]
+  },
+  {
+    "id": "evt-huaiyang",
+    "time": "1415-01-01",
+    "title": "淮扬段与交通节点",
+    "description": "聚焦济宁、淮安、扬州一带，展示运河中段节点城市和交通联系的示意关系。",
+    "focus": {
+      "center": [118.25, 33.7],
+      "height": 520000,
+      "pitch": -58
+    },
+    "visibleLayers": ["places", "routes", "zones"]
+  },
+  {
+    "id": "evt-jiangnan",
+    "time": "1700-01-01",
+    "title": "江南段与杭州节点",
+    "description": "聚焦苏州、杭州方向，展示江南段历史交通线路与城市节点的空间关系。",
+    "focus": {
+      "center": [120.35, 30.75],
+      "height": 420000,
+      "pitch": -58
+    },
+    "visibleLayers": ["places", "routes", "zones", "events"]
+  }
+]

@@ -1,0 +1,133 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "place-tongzhou",
+        "name": "北京/通州",
+        "type": "节点城市",
+        "faction": "canal-cities",
+        "description": "大运河北端方向的重要节点。此处使用现代通州近似坐标作为演示标注。",
+        "startTime": "1293-01-01",
+        "endTime": "1900-12-31"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.657, 39.909]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "place-tianjin",
+        "name": "天津",
+        "type": "节点城市",
+        "faction": "canal-cities",
+        "description": "北方水陆交通节点。此处坐标为现代城市近似位置，用于演示。",
+        "startTime": "1293-01-01",
+        "endTime": "1900-12-31"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [117.2, 39.084]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "place-linqing",
+        "name": "临清",
+        "type": "节点城市",
+        "faction": "canal-cities",
+        "description": "鲁西北方向的运河节点城市。坐标为现代城市近似位置。",
+        "startTime": "1293-01-01",
+        "endTime": "1900-12-31"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [115.704, 36.838]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "place-jining",
+        "name": "济宁",
+        "type": "节点城市",
+        "faction": "canal-cities",
+        "description": "运河沿线重要节点城市。坐标为现代城市近似位置。",
+        "startTime": "0605-01-01",
+        "endTime": "1900-12-31"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.587, 35.415]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "place-huaian",
+        "name": "淮安",
+        "type": "节点城市",
+        "faction": "canal-cities",
+        "description": "淮河与运河交通关系中的重要节点。坐标为现代城市近似位置。",
+        "startTime": "0605-01-01",
+        "endTime": "1900-12-31"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [119.015, 33.61]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "place-yangzhou",
+        "name": "扬州",
+        "type": "节点城市",
+        "faction": "canal-cities",
+        "description": "淮扬方向的历史交通与城市节点。坐标为现代城市近似位置。",
+        "startTime": "0605-01-01",
+        "endTime": "1900-12-31"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [119.413, 32.394]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "place-suzhou",
+        "name": "苏州",
+        "type": "节点城市",
+        "faction": "canal-cities",
+        "description": "江南段城市节点。坐标为现代城市近似位置，用于线路演示。",
+        "startTime": "0605-01-01",
+        "endTime": "1900-12-31"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [120.585, 31.299]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "place-hangzhou",
+        "name": "杭州",
+        "type": "节点城市",
+        "faction": "canal-cities",
+        "description": "江南方向的重要城市节点。坐标为现代城市近似位置。",
+        "startTime": "0605-01-01",
+        "endTime": "1900-12-31"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [120.155, 30.274]
+      }
+    }
+  ]
+}

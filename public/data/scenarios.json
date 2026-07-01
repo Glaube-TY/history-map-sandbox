@@ -7,5 +7,14 @@
     "location": "山西省灵丘县一带",
     "summary": "用于演示历史地图沙盘的数据样例，具体史实坐标需后续校订。",
     "cover": "/icons/marker-place.svg"
+  },
+  {
+    "id": "grand-canal",
+    "title": "大运河历史线路",
+    "category": "历史线路",
+    "period": "隋唐至明清",
+    "location": "华北至江南运河沿线",
+    "summary": "非战争历史专题示例，用于展示历史交通线路、节点城市和时间轴说明，坐标与线路为演示近似。",
+    "cover": "/icons/route-arrow.svg"
   }
 ]
