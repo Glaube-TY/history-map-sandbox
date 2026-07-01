@@ -11,20 +11,24 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'node_modules/cesium/Build/Cesium/Workers',
-          dest: 'cesiumStatic',
+          src: 'node_modules/cesium/Build/Cesium/Workers/**/*',
+          dest: 'cesiumStatic/Workers',
+          rename: { stripBase: 5 },
         },
         {
-          src: 'node_modules/cesium/Build/Cesium/ThirdParty',
-          dest: 'cesiumStatic',
+          src: 'node_modules/cesium/Build/Cesium/ThirdParty/**/*',
+          dest: 'cesiumStatic/ThirdParty',
+          rename: { stripBase: 5 },
         },
         {
-          src: 'node_modules/cesium/Build/Cesium/Assets',
-          dest: 'cesiumStatic',
+          src: 'node_modules/cesium/Build/Cesium/Assets/**/*',
+          dest: 'cesiumStatic/Assets',
+          rename: { stripBase: 5 },
         },
         {
-          src: 'node_modules/cesium/Build/Cesium/Widgets',
-          dest: 'cesiumStatic',
+          src: 'node_modules/cesium/Build/Cesium/Widgets/**/*',
+          dest: 'cesiumStatic/Widgets',
+          rename: { stripBase: 5 },
         },
       ],
     }),
