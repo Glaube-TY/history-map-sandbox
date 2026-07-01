@@ -1,0 +1,47 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "route-approach",
+        "name": "示例行动路线",
+        "type": "行动路线",
+        "faction": "eighth-route-army",
+        "description": "用于展示路线图层的示例线状数据，非正式复原路线。",
+        "startTime": "1937-09-24",
+        "endTime": "1937-09-25"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [113.77, 39.995],
+          [113.82, 40.01],
+          [113.884, 39.979],
+          [113.936, 39.958]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "route-road",
+        "name": "示例道路方向",
+        "type": "道路",
+        "faction": "japanese-army",
+        "description": "用于展示道路或行军方向的示例线状数据。",
+        "startTime": "1937-09-20",
+        "endTime": "1937-09-26"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [113.72, 40.04],
+          [113.804, 40.015],
+          [113.884, 39.979],
+          [114.0, 39.94]
+        ]
+      }
+    }
+  ]
+}

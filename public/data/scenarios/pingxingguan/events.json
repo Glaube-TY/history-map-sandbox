@@ -1,0 +1,46 @@
+[
+  {
+    "id": "evt-prepare",
+    "time": "1937-09-20",
+    "title": "战前态势整理",
+    "description": "示例事件：围绕平型关、灵丘方向整理地形、道路和关键点位。此处用于展示专题加载后的初始视角。",
+    "focus": {
+      "center": [113.9304, 39.9569],
+      "height": 42000
+    },
+    "visibleLayers": ["places", "routes", "zones"]
+  },
+  {
+    "id": "evt-move",
+    "time": "1937-09-24",
+    "title": "行动路线展开",
+    "description": "示例事件：以线状要素展示行动方向和道路通行关系，具体路线需在后续版本中依据资料校订。",
+    "focus": {
+      "center": [113.915, 39.968],
+      "height": 30000
+    },
+    "visibleLayers": ["places", "routes"]
+  },
+  {
+    "id": "evt-battle",
+    "time": "1937-09-25",
+    "title": "伏击区域标注",
+    "description": "示例事件：以区域要素表达重点空间范围，并结合地点、路线进行联动说明。",
+    "focus": {
+      "center": [113.884, 39.979],
+      "height": 24000
+    },
+    "visibleLayers": ["places", "routes", "zones"]
+  },
+  {
+    "id": "evt-review",
+    "time": "1937-09-26",
+    "title": "专题复盘",
+    "description": "示例事件：回到全局视角，展示专题中的点、线、面图层与资料提示。",
+    "focus": {
+      "center": [113.9304, 39.9569],
+      "height": 50000
+    },
+    "visibleLayers": ["places", "routes", "zones", "events"]
+  }
+]

@@ -1,0 +1,65 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "place-pingxingguan",
+        "name": "平型关",
+        "type": "关隘",
+        "description": "示例关键点位，具体坐标需后续校订。",
+        "startTime": "1937-09-20",
+        "endTime": "1937-09-26"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [113.936, 39.958]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "place-lingqiu",
+        "name": "灵丘",
+        "type": "城镇",
+        "description": "示例城镇点位，用于展示场景中的区域参照。",
+        "startTime": "1937-09-20",
+        "endTime": "1937-09-26"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [114.235, 39.442]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "place-ambush",
+        "name": "伏击区域附近",
+        "type": "空间标注",
+        "description": "示例战术空间标注，非正式史料坐标。",
+        "startTime": "1937-09-24",
+        "endTime": "1937-09-26"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [113.884, 39.979]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "place-road-node",
+        "name": "道路节点",
+        "type": "交通节点",
+        "description": "示例道路节点，帮助验证点线面叠加效果。",
+        "startTime": "1937-09-20",
+        "endTime": "1937-09-26"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [113.804, 40.015]
+      }
+    }
+  ]
+}

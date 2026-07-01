@@ -1,0 +1,30 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "zone-ambush",
+        "name": "重点空间范围",
+        "type": "影响区域",
+        "faction": "eighth-route-army",
+        "description": "示例多边形区域，用于表达专题中的关键空间范围。",
+        "startTime": "1937-09-24",
+        "endTime": "1937-09-26"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [113.835, 39.998],
+            [113.88, 40.018],
+            [113.93, 39.985],
+            [113.915, 39.945],
+            [113.855, 39.942],
+            [113.835, 39.998]
+          ]
+        ]
+      }
+    }
+  ]
+}
