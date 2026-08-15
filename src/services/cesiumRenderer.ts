@@ -444,3 +444,92 @@ export function flyToScenarioFocus(
     duration,
   });
 }
+
+const TOP_DOWN_PITCH = Cesium.Math.toRadians(-90);
+const OBLIQUE_PITCH = Cesium.Math.toRadians(-42);
+const OBLIQUE_HEIGHT_FACTOR = 1.6;
+const METERS_PER_DEGREE_LATITUDE = 111000;
+
+function estimateObliqueHeight(bounds: [number, number, number, number]): number {
+  const [west, south, east, north] = bounds;
+  const centerLatitude = (south + north) / 2;
+  const widthMeters = (east - west) * METERS_PER_DEGREE_LATITUDE * Math.cos(Cesium.Math.toRadians(centerLatitude));
+  const heightMeters = (north - south) * METERS_PER_DEGREE_LATITUDE;
+  const diagonalMeters = Math.sqrt(widthMeters * widthMeters + heightMeters * heightMeters);
+
+  return Math.max(diagonalMeters * OBLIQUE_HEIGHT_FACTOR, 2500);
+}
+
+export function flyToScenarioOverviewTopDown(
+  viewer: Cesium.Viewer,
+  payload: ScenarioLayerPayload,
+  fallbackCenter: [number, number],
+  fallbackHeight: number,
+  duration = 0.9,
+): void {
+  const bounds = collectScenarioBounds(payload);
+
+  if (!bounds) {
+    const [longitude, latitude] = fallbackCenter;
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(longitude, latitude, fallbackHeight),
+      orientation: {
+        heading: Cesium.Math.toRadians(0),
+        pitch: TOP_DOWN_PITCH,
+        roll: 0,
+      },
+      duration,
+    });
+    return;
+  }
+
+  const [west, south, east, north] = bounds;
+  viewer.camera.flyTo({
+    destination: Cesium.Rectangle.fromDegrees(west, south, east, north),
+    orientation: {
+      heading: Cesium.Math.toRadians(0),
+      pitch: TOP_DOWN_PITCH,
+      roll: 0,
+    },
+    duration,
+  });
+}
+
+export function flyToScenarioOblique(
+  viewer: Cesium.Viewer,
+  payload: ScenarioLayerPayload,
+  fallbackCenter: [number, number],
+  fallbackHeight: number,
+  duration = 0.9,
+): void {
+  const bounds = collectScenarioBounds(payload);
+
+  if (!bounds) {
+    const [longitude, latitude] = fallbackCenter;
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(longitude, latitude, fallbackHeight),
+      orientation: {
+        heading: Cesium.Math.toRadians(0),
+        pitch: OBLIQUE_PITCH,
+        roll: 0,
+      },
+      duration,
+    });
+    return;
+  }
+
+  const [west, south, east, north] = bounds;
+  const centerLongitude = (west + east) / 2;
+  const centerLatitude = (south + north) / 2;
+  const height = estimateObliqueHeight(bounds);
+
+  viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(centerLongitude, centerLatitude, height),
+    orientation: {
+      heading: Cesium.Math.toRadians(0),
+      pitch: OBLIQUE_PITCH,
+      roll: 0,
+    },
+    duration,
+  });
+}

@@ -134,6 +134,25 @@ function createTdtMode(viewer: Cesium.Viewer, token?: string): BasemapResult {
   };
 }
 
+export function removeBasemapLayers(
+  viewer: Cesium.Viewer,
+  result: BasemapResult,
+): void {
+  [...result.primaryLayers, result.fallbackLayer].forEach((layer) => {
+    if (layer && viewer.imageryLayers.contains(layer)) {
+      viewer.imageryLayers.remove(layer, true);
+    }
+  });
+}
+
+export function applyBasemapMode(
+  viewer: Cesium.Viewer,
+  mode: BasemapMode,
+  options: CreateBasemapOptions = {},
+): BasemapResult {
+  return createBasemapLayers(viewer, mode, options);
+}
+
 export function createBasemapLayers(
   viewer: Cesium.Viewer,
   mode: BasemapMode,

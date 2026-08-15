@@ -48,6 +48,28 @@ npm run dev:lan
 - `VITE_BASEMAP_MODE=grid`：纯网格兜底模式，不依赖外部图源。
 - `VITE_BASEMAP_MODE=tdt`：天地图矢量底图模式，加载天地图矢量底图层和中文注记层，需要配置 `VITE_TDT_TOKEN`；未配置 token 时自动回退到公开演示底图，加载失败时自动回退到基础网格兜底模式，不会导致页面崩溃。
 
+### 运行时底图切换
+
+场景页地图右上方提供轻量底图切换按钮：公开 / 天地图 / 网格。切换后立即生效，不需要刷新页面。用户的选择会保存到 `localStorage`（key：`history-map-sandbox:basemap-mode`），下次进入场景页时优先使用保存值；若保存值不合法则忽略，并回退到 `VITE_BASEMAP_MODE` 或默认 `demo`。
+
+### 地形模式
+
+复制 `.env.example` 为 `.env.local` 后，可通过 `VITE_TERRAIN_MODE` 切换地形：
+
+- `VITE_TERRAIN_MODE=flat`（默认）：基础平面地形，使用默认椭球，不依赖外部地形服务。
+- `VITE_TERRAIN_MODE=cesium-ion`：Cesium Ion 三维地形，需要配置 `VITE_CESIUM_ION_TOKEN`；未配置 token 时自动回退到基础平面地形，不会导致页面崩溃。
+
+场景页地图右上方同时提供轻量地形切换按钮：平面 / 地形。切换后立即生效并保存到 `localStorage`（key：`history-map-sandbox:terrain-mode`），初始化优先级为：localStorage 有效值 > `VITE_TERRAIN_MODE` > 默认 `flat`。前端 token 会暴露在浏览器中，只能作为公开 key 使用，建议限制域名。
+
+### 视角预设
+
+场景页地图工具栏提供轻量视角预设按钮：
+
+- **俯视**：回到当前专题数据范围上空的近似垂直俯视视角；优先根据 places / routes / zones 数据范围定位，没有数据时回退到专题 center + defaultCameraHeight。
+- **三维视角**：切换到带倾斜角度的斜视视角（pitch 约 -42°），让地形起伏更明显，增强“沙盘感”。
+
+视角切换只改变相机，不改变底图模式、地形模式、专题数据图层和时间轴。
+
 ### 环境变量安全
 
 - `.env.example` 可以提交到仓库，作为配置模板。
@@ -98,6 +120,28 @@ Settings -> Pages -> Source -> GitHub Actions
 
 - **平型关大捷**：战争战役类示例。
 - **大运河历史线路**：非战争历史线路示例，用于验证模型对交通、城市节点、区域范围等广义历史主题的表达能力。
+
+## 数据校验
+
+新增或修改专题数据后，建议运行数据校验脚本：
+
+```bash
+npm run validate:data
+```
+
+校验范围包括：
+
+- `scenarios.json`：专题摘要字段、id 格式与唯一性、category 非空；title/category 与 `metadata.json` 不一致时输出 warning。
+- `metadata.json`：字段完整性、id 与目录一致性、center 经纬度范围、defaultCameraHeight 有限正数、subjects/factions 格式与颜色。
+  - `subjects` 与 `factions` 同时存在且内容完全一致时不输出 warning。
+  - `subjects` 与 `factions` 同时存在但 id/name/color 不一致时输出 warning，建议统一使用 `subjects`。
+- `events.json`：字段完整性、id 唯一性、focus.center 经纬度、focus.height 有限正数、visibleLayers 合法性、sortOrder 有限数字。
+- `places.geojson` / `routes.geojson` / `zones.geojson`：必须是 `FeatureCollection`，几何类型正确，坐标合法，properties 包含必要字段；同一 GeoJSON 文件内 `properties.id` 必须唯一；`zones.geojson` 的 Polygon ring 必须闭合（首尾坐标相同）且至少 4 个点。空 `features` 数组被视为合法空图层。
+- `sources.json`：必要字段存在，`historicalSources` / `mapSources` 为数组。
+
+如果 GeoJSON 中的 `subject` / `faction` 引用在 metadata 中找不到，脚本会输出 warning 但不会阻断校验。演示数据允许 `historicalSources` / `mapSources` 为空数组或简短说明，但字段必须存在。
+
+校验结束时脚本会输出摘要：已校验专题数量、事件数量、GeoJSON 要素数量、错误数、警告数。
 
 ## 许可证占位
 

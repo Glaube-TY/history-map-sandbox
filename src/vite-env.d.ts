@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly VITE_CESIUM_ION_TOKEN?: string;
   readonly VITE_TDT_TOKEN?: string;
   readonly VITE_BASEMAP_MODE?: 'demo' | 'tdt' | 'grid';
+  readonly VITE_TERRAIN_MODE?: 'flat' | 'cesium-ion';
 }
 
 interface ImportMeta {

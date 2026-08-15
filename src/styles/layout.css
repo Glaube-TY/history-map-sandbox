@@ -353,11 +353,17 @@
   position: relative;
 }
 
-.map-mode-badge {
+.map-status-badges {
   position: absolute;
   z-index: 5;
   top: 12px;
   left: 12px;
+  display: grid;
+  gap: 6px;
+}
+
+.map-mode-badge,
+.map-terrain-badge {
   border: 1px solid var(--line);
   border-radius: 8px;
   color: #f4fbf7;
@@ -368,37 +374,58 @@
   backdrop-filter: blur(8px);
 }
 
-.map-action-bar {
+.map-tools {
   position: absolute;
   z-index: 5;
   top: 12px;
   right: 12px;
   display: flex;
-  gap: 8px;
-  align-items: center;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+  max-width: min(320px, calc(100% - 24px));
 }
 
-.map-action-bar button {
+.map-tool-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.map-tool-group:first-child button {
   min-height: 36px;
+  padding: 8px 11px;
+  font-size: 0.84rem;
+}
+
+.map-tool-group button {
+  min-height: 32px;
   border: 1px solid var(--line);
   border-radius: 8px;
   color: #f4fbf7;
   background: rgba(8, 14, 15, 0.86);
-  padding: 8px 11px;
-  font-size: 0.84rem;
+  padding: 6px 10px;
+  font-size: 0.82rem;
   font-weight: 700;
   backdrop-filter: blur(8px);
 }
 
-.map-action-bar button:hover:not(:disabled) {
+.map-tool-group button:hover:not(:disabled) {
   border-color: var(--accent);
   color: #ffffff;
   background: rgba(20, 34, 33, 0.92);
 }
 
-.map-action-bar button:disabled {
+.map-tool-group button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
+}
+
+.map-tool-group button.active {
+  border-color: var(--accent);
+  color: #071110;
+  background: var(--accent);
 }
 
 .cesium-widget-credits {
@@ -518,10 +545,16 @@
     min-height: 58vh;
   }
 
-  .map-action-bar {
+  .map-tools {
     top: 58px;
     left: 12px;
     right: auto;
+    align-items: flex-start;
+    max-width: min(280px, calc(100% - 24px));
+  }
+
+  .map-tool-group {
+    justify-content: flex-start;
   }
 
   .event-overlay {
@@ -560,5 +593,24 @@
 
   .timeline-meta {
     display: grid;
+  }
+
+  .map-tools {
+    max-width: min(220px, calc(100% - 24px));
+  }
+
+  .map-tool-group {
+    gap: 4px;
+  }
+
+  .map-tool-group button {
+    padding: 5px 8px;
+    font-size: 0.78rem;
+  }
+
+  .map-tool-group:first-child button {
+    min-height: 30px;
+    padding: 6px 9px;
+    font-size: 0.8rem;
   }
 }
